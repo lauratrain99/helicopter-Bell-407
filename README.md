@@ -12,7 +12,7 @@ Fixed parameters:
 Nominal analysis, available at *analysis/nominal_analysis.m* :
 - Blades: 4
 - Constant chord distribution: 0.27 m
-- Twist distribution: $θ_0 + θ_t * x$
+- Twist distribution: θ_0 + θ_t * x
     - slope per meter θ_{tw} = - 2 º/m
 - NACA 0016 aerodynamic profile: 
     Cl = Cl_α * α
