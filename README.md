@@ -9,7 +9,7 @@ Fixed parameters:
 - Rotational speed: 413 rpm
 - Radius of the blades: 5.33 m
 
-Nominal analysis, design variables:
+Nominal analysis, available at *analysis/nominal_analysis.m* :
 - Blades: 4
 - Constant chord distribution: 0.27 m
 - Twist distribution: θ_0 + θ_t * x
@@ -20,3 +20,5 @@ Nominal analysis, design variables:
     Cd = Cd_0 + K * Cl^2
     - Cd_0 = 0.0076
     - K = 0.3/Cl_α^2
+
+Run script in 
