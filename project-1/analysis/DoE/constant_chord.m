@@ -55,3 +55,5 @@ fprintf("Cp0 = %.8f \n", nominal.Cp0)
 fprintf("Total power = %.2f kW \n\n", nominal.P)
 power(i) = nominal.P;
 end
+
+plot(chord_span, power)
