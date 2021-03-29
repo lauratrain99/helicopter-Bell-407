@@ -2,10 +2,11 @@ clear; clc; close all;
 
 %% Add paths
 
-addpath ../aerodynamics
-addpath ../conversions
-addpath ../params
-addpath ../power
+addpath ../../aerodynamics
+addpath ../../conversions
+addpath ../../params
+addpath ../../power
+addpath ../
 
 %% Fixed parameters
 
