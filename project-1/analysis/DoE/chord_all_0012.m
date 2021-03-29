@@ -2,11 +2,10 @@ clear; clc; close all;
 
 %% Add paths
 
-addpath ../../aerodynamics
-addpath ../../conversions
-addpath ../../params
-addpath ../../power
-addpath ../
+addpath ../aerodynamics
+addpath ../conversions
+addpath ../params
+addpath ../power
 
 %% Fixed parameters
 
@@ -34,10 +33,10 @@ nominal.c = chord(nominal, params);            % m
 % Twist slope
 nominal.twist.thetaTW = -2;                    % deg/m
 
-% NACA 0016
-nominal.aero.Cl_alpha = 6.05;                  % 1/rad
-nominal.aero.Cd0 = 0.0076;                    
-nominal.aero.K = 0.3/nominal.aero.Cl_alpha^2;  % 1/rad^2
+% NACA 0012
+nominal.aero.Cl_alpha = 5.63;                  % 1/rad
+nominal.aero.Cd0 = 0.0061;                    
+nominal.aero.K = 0.0138/nominal.aero.Cl_alpha^2;  % 1/rad^2
 
 
 %% Analyses
@@ -75,12 +74,12 @@ xMin = c_0(row,col);
 yMin = c_F(row,col); 
 % Mark min  on plot
 
-data_wanted = linspace(290, 300, 11);
+data_wanted = [250, 255, 260, 270];
 figure(2)
 contourf(c_0, c_F, power, data_wanted,'ShowText', 'on')
 hold on 
 plot(xMin, yMin, 'rs', 'MarkerSize', 12)
-xlim([0.15, 0.8])
+xlim([0.1, 0.8])
 ylim([min(chord_span), 0.25])
 xlabel('Chord in the root [m]')
 ylabel('Chord in the tip [m]')

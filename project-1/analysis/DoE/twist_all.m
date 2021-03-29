@@ -57,6 +57,9 @@ end
 
 plot(twist_angle, power)
 title('Power vs twist angle')
+xlabel('Twist angle [deg/m]')
+ylabel('Power [kW]')
+grid on
 
 
 
