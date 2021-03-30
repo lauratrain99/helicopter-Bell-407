@@ -39,7 +39,7 @@ nominal.aero.Cd0 = 0.0076;
 nominal.aero.K = 0.3/nominal.aero.Cl_alpha^2;  % 1/rad^2
 
 
-%% Analyses
+%% Analysis
 nominal = power_BETMT(params, nominal);
 
 fprintf("-----------NOMINAL CASE------------\n")

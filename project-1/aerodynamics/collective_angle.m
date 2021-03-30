@@ -25,7 +25,6 @@ function [theta0, thetaT] = collective_angle(params, analysis)
 %%  
     % get geometric twist slope
     thetaT = deg2rad(analysis.twist.thetaTW) * params.R;
-    %theta0 = 6/(sigma*Cl_alpha)*CT + 3*lambda/2 - 3*thetaT/4;
     
     % get collective angle by solving an implicit equation
     f = @(collective) trapz(params.x, analysis.sigma.*analysis.aero.Cl_alpha / 2 .*(collective + thetaT*params.x - 1./params.x * analysis.lambda).*params.x.^2) - analysis.CT;

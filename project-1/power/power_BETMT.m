@@ -33,6 +33,7 @@ function [analysis] = power_BETMT(params, analysis)
 %        phi: inflow angle distribution [rad]
 %        Cpi: induced power coefficient
 %        Cp0: parasitic power coefficient
+%         Pu: nondimensinal power
 %          P: total power [kW]
 %
 %%  
@@ -44,10 +45,10 @@ function [analysis] = power_BETMT(params, analysis)
     analysis.Cp0 = Cp0;
     
     % compute non dimensional power
-    Pu = ref_power(params);
+    analysis.Pu = ref_power(params);
     
     Cp = analysis.Cpi + analysis.Cp0;
     
-    analysis.P = Pu*Cp / 1000;
+    analysis.P = analysis.Pu*Cp / 1000;
     
 end
