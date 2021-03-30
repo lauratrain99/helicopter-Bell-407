@@ -1,4 +1,4 @@
-clear; clc; close all;
+
 
 %% Add paths
 
