@@ -50,7 +50,7 @@ for i = 1:length(chord_span)
         nominal = power_BETMT(params, nominal);
 
         fprintf("-----------LINEAR CHORD, CONSTANT TWIST------------\n")
-        fprintf("The collective angle is %.2fº \n", rad2deg(nominal.twist.theta0))
+        fprintf("The collective angle is %.2f� \n", rad2deg(nominal.twist.theta0))
         fprintf("c0 = %.2f \n", nominal.c0)
         fprintf("cF = %.2f \n", nominal.cF)
         fprintf("Total power = %.2f kW \n\n", nominal.P)
@@ -58,7 +58,19 @@ for i = 1:length(chord_span)
     end
 end
 
-figure(1)
+[min_power, minIdx] = min(power(:)); 
+[row,col] = ind2sub(size(power),minIdx); 
+xMin = c_0(row,col); 
+yMin = c_F(row,col); 
+
+if exist('figures_num', 'var')
+else
+    figures_num = 0;
+end
+
+figures_num = figures_num + 1;
+
+figure(figures_num)
 plot(xMin, yMin, 'rx', 'MarkerSize', 12)
 hold on
 contourf(c_0, c_F, power, 'ShowText', 'on')
@@ -66,20 +78,20 @@ hold on
 plot(xMin, yMin, 'rx', 'MarkerSize', 12)
 xlabel('Chord in the root [m]')
 ylabel('Chord in the tip [m]')
-legend(legend(sprintf('Chord = %.2f m, Power = %.2f', xMin, yMin)))
-title('Power [kW] vs chord distribution. Nominal case (twist angle = -2 deg/m, NACA 0016)')
+legend(sprintf('Chord i the root = %.2f m, Chord in the tip = %.2f m, power = %.2f kW', xMin, yMin, min_power))
+title('Power [kW] vs chord distribution. Nominal case')
 grid on
 colormap cool
+saveas(gcf, 'plots/linear_chord.png')
 % shading interp
 % colorbar
-[~, minIdx] = min(power(:)); 
-[row,col] = ind2sub(size(power),minIdx); 
-xMin = c_0(row,col); 
-yMin = c_F(row,col); 
+
 % Mark min  on plot
 
+figures_num = figures_num + 1;
+
 data_wanted = linspace(290, 300, 11);
-figure(2)
+figure(figures_num)
 plot(xMin, yMin, 'rx', 'MarkerSize', 12)
 hold on
 contourf(c_0, c_F, power, data_wanted,'ShowText', 'on')
@@ -89,11 +101,11 @@ xlim([0.15, 0.8])
 ylim([min(chord_span), 0.25])
 xlabel('Chord in the root [m]')
 ylabel('Chord in the tip [m]')
-legend(sprintf('Chord = %.2f m, Power = %.2f', xMin, yMin))
-title('Power [kW] vs chord distribution. Nominal case (twist angle = -2 deg/m, NACA 0016)')
+legend(sprintf('Chord i the root = %.2f m, Chord in the tip = %.2f m, power = %.2f kW', xMin, yMin, min_power))
+title('Power [kW] vs chord distribution. Nominal case')
 grid on
 colormap cool
-
+saveas(gcf, 'plots/linear_chord_detail.png')
 % fprintf("-----------LINEAR CHORD CASE------------\n")
 % % fprintf("The collective angle is %.2fº \n", rad2deg(nominal.twist.theta0))
 % fprintf("c0 = %.2f \n", xMin)

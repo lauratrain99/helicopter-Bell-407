@@ -1,4 +1,4 @@
-clear; clc; close all;
+
 
 %% Add paths
 
@@ -54,11 +54,25 @@ for i = 1:length(twist_angle)
     power(i) = nominal.P;
 end
 
-plot(twist_angle, power)
-title('Power vs twist angle')
+[min_power, index] = min(power);
+
+
+if exist('figures_num', 'var')
+else
+    figures_num = 0;
+end
+
+figures_num = figures_num + 1;
+figure(figures_num)
+plot(twist_angle(index), min_power, 'rx', 'MarkerSize', 12)
+hold on
+plot(twist_angle, power, 'b')
+title('Power vs twist angle. c0 = 0.34 m, cF = 0.1 m. NACA 0016')
+legend(sprintf('twist angle = %.2f deg/m, Power = %.2f kW', twist_angle(index), min_power))
 xlabel('Twist angle [deg/m]')
 ylabel('Power [kW]')
-grid on
+grid minor
+saveas(gcf, 'plots/linear_twist.png')
 
 
 

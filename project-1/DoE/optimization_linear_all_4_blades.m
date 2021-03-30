@@ -120,6 +120,7 @@ title(sprintf('Power [kW] (tip chord = 0.1 m), NACA 0012. Blades = %i', nominal.
 colormap cool
 % shading interp
 grid on
+saveas(gcf, 'plots/4_blades_0012.png')
 
 figures_num = figures_num + 1;
 
@@ -137,6 +138,7 @@ title(sprintf('Power [kW] (tip chord = 0.1 m), NACA 0016. Blades = %i', nominal.
 colormap cool
 % shading interp
 grid on
+saveas(gcf, 'plots/4_blades_0016.png')
 
 figures_num = figures_num + 1;
 
@@ -153,4 +155,5 @@ title(sprintf('Power [kW] (tip chord = 0.1 m), NACA 0020. Blades = %i', nominal.
 colormap cool
 % shading interp
 grid on
+saveas(gcf, 'plots/4_blades_0020.png')
 
