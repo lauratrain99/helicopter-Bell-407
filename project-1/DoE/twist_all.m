@@ -1,4 +1,4 @@
-clear; clc; close all;
+
 
 %% Add paths
 
@@ -22,10 +22,10 @@ params.x = linspace(0.001,1,100)';
 nominal.nb = 4;
 
 % Chord at the root
-nominal.c0 = 0.27;                             % m
+nominal.c0 = 0.34;                             % m
 
 % Chord at the tip
-nominal.cF = 0.27;                             % m
+nominal.cF = 0.1;                             % m
 
 % Chord distribution
 nominal.c = chord(nominal, params);            % m
@@ -41,23 +41,38 @@ nominal.aero.K = 0.3/nominal.aero.Cl_alpha^2;  % 1/rad^2
 
 %% Analyses
 
-%NACA 0012, NACA 0016, NACA0020
-Cd0 = [0.0061, 0.0076, 0.0090];
-Cl_alpha = [5.63, 6.05, 4.51];
-k = [0.0138, 0.3, 0.456] ./Cl_alpha.^2;
-
-for airfoil = 1:3
-    nominal.aero.Cl_alpha = Cl_alpha(airfoil);
-    nominal.aero.Cd0 = Cd0(airfoil);
-    nominal.aero.K = k(airfoil);
+twist_angle = linspace(-10, 10, 100);
+power = 0 * twist_angle;
+for i = 1:length(twist_angle)
+    nominal.twist.thetaTW = twist_angle(i);  
     nominal = power_BETMT(params, nominal);
     fprintf("-----------NOMINAL CASE------------\n")
-    fprintf("The collective angle is %.2fº \n", rad2deg(nominal.twist.theta0))
+    fprintf("The collective angle is %.2fÂº \n", rad2deg(nominal.twist.theta0))
     fprintf("Cpi = %.8f \n", nominal.Cpi)
     fprintf("Cp0 = %.8f \n", nominal.Cp0)
     fprintf("Total power = %.2f kW \n\n", nominal.P)
-    power(airfoil) = nominal.P;
+    power(i) = nominal.P;
 end
+
+[min_power, index] = min(power);
+
+
+if exist('figures_num', 'var')
+else
+    figures_num = 0;
+end
+
+figures_num = figures_num + 1;
+figure(figures_num)
+plot(twist_angle(index), min_power, 'rx', 'MarkerSize', 12)
+hold on
+plot(twist_angle, power, 'b')
+title('Power vs twist angle. c0 = 0.34 m, cF = 0.1 m. NACA 0016')
+legend(sprintf('twist angle = %.2f deg/m, Power = %.2f kW', twist_angle(index), min_power))
+xlabel('Twist angle [deg/m]')
+ylabel('Power [kW]')
+grid minor
+saveas(gcf, 'plots/linear_twist.png')
 
 
 

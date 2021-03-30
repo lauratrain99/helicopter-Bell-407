@@ -1,12 +1,10 @@
-clear; clc; close all;
 
 %% Add paths
 
-addpath ../../aerodynamics
-addpath ../../conversions
-addpath ../../params
-addpath ../../power
-addpath ../
+addpath ../aerodynamics
+addpath ../conversions
+addpath ../params
+addpath ../power
 
 %% Fixed parameters
 
@@ -57,4 +55,31 @@ fprintf("Total power = %.2f kW \n\n", nominal.P)
 power(i) = nominal.P;
 end
 
-plot(chord_span, power)
+[min_power, index] = min(power);
+
+if exist('figures_num', 'var')
+else
+    figures_num = 0;
+end
+
+figures_num = figures_num + 1;
+
+figure(figures_num)
+plot(chord_span(index), min_power, 'rx', 'MarkerSize', 12)
+hold on
+plot(chord_span, power, 'b')
+hold on
+% plot(chord_span(index), min_power, 'rx', 'MarkerSize', 12)
+legend(sprintf('Chord = %.2f m, Power = %.2f', chord_span(index), min_power))
+title('Costant chord. Nominal case (twist angle = -2 deg/m, NACA 0016)')
+xlabel('Chord [m]')
+ylabel('Power [kW]')
+grid minor
+saveas(gcf, 'plots/constant_chord.png')
+
+
+
+
+
+
+

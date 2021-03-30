@@ -67,7 +67,8 @@ for airfoil = 1:3
                 nominal.c = chord(nominal, params); 
                 nominal = power_BETMT(params, nominal);
                 power(k, i, airfoil) = nominal.P;
-                fprintf("-----------LINEAR CHORD CASE------------\n")
+                fprintf("-----------LINEAR CASE------------\n")
+                fprintf("Number of blades %i \n", nominal.nb)
                 fprintf("Twist angle %.2fº \n", nominal.twist.thetaTW)
                 fprintf("Airfoil %i \n", airfoil)
                 fprintf("c0 = %.2f \n", nominal.c0)
@@ -98,39 +99,60 @@ power_0020 = power(:, :, 3);
 c0_minP(3) = c_0(col); 
 twist_angle_minP(3) = twist_angle(row);
 
+if exist('figures_num', 'var')
+else
+    figures_num = 0;
+end
 
-figure(1)
+figures_num = figures_num + 1;
+
+figure(figures_num)
+plot(c0_minP(1), twist_angle_minP(1), 'rx', 'MarkerSize', 12)
+hold on
 contourf(c_0, twist_angle, power_0012, 'ShowText', 'on')
 hold on
 plot(c0_minP(1), twist_angle_minP(1), 'rx', 'MarkerSize', 12)
+legend(sprintf('Chord root = %.2f, twist angle = %.2f, Power = %.2f kW', c0_minP(1), twist_angle_minP(1), min_power(1)))
 xlabel('Chord in the root [m]')
 ylabel('Twist angle [deg/m]')
-title('Power [kW] (tip chord = 0.1 m), NACA 0012')
+title(sprintf('Power [kW] (tip chord = 0.1 m), NACA 0012'))
 colormap cool
 % shading interp
 grid on
+saveas(gcf, 'plots/5_blades_0012.png')
 
-figure(2)
-contourf(c_0, twist_angle, power_0016, [291, 292, 295, 300, 320, 340], 'ShowText', 'on')
+figures_num = figures_num + 1;
+
+figure(figures_num)
+plot(c0_minP(2), twist_angle_minP(2), 'rx', 'MarkerSize', 12)
+hold on
+contourf(c_0, twist_angle, power_0016, 'ShowText', 'on')
 hold on
 plot(c0_minP(2), twist_angle_minP(2), 'rx', 'MarkerSize', 12)
+legend(sprintf('Chord root = %.2f, twist angle = %.2f, Power = %.2f kW', c0_minP(2), twist_angle_minP(2), min_power(2)))
 % text(c0_minP(2) - 0.1, twist_angle_minP(2) - 0.5, sprintf('C = %.2f, theta = %.2f', c0_minP(2), twist_angle_minP(2)))
-legend('', sprintf('C = %.2f, theta = %.2f', c0_minP(2), twist_angle_minP(2)))
 xlabel('Chord in the root [m]')
 ylabel('Twist angle [deg/m]')
-title('Power [kW] (tip chord = 0.1 m), NACA 0016')
+title(sprintf('Power [kW] (tip chord = 0.1 m), NACA 0016'))
 colormap cool
 % shading interp
 grid on
+saveas(gcf, 'plots/5_blades_0016.png')
 
-figure(3)
+figures_num = figures_num + 1;
+
+figure(figures_num)
+plot(c0_minP(3), twist_angle_minP(3), 'rx', 'MarkerSize', 12)
+hold on
 contourf(c_0, twist_angle, power_0020, 'ShowText', 'on')
 hold on
 plot(c0_minP(3), twist_angle_minP(3), 'rx', 'MarkerSize', 12)
+legend(sprintf('Chord root = %.2f, twist angle = %.2f, Power = %.2f kW', c0_minP(3), twist_angle_minP(3), min_power(3)))
 xlabel('Chord in the root [m]')
 ylabel('Twist angle [deg/m]')
-title('Power [kW] (tip chord = 0.1 m), NACA 0020')
+title(sprintf('Power [kW] (tip chord = 0.1 m), NACA 0020'))
 colormap cool
 % shading interp
 grid on
+saveas(gcf, 'plots/5_blades_0020.png')
 
