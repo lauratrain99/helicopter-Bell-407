@@ -1,5 +1,7 @@
 clear; clc; close all;
 
+% This files finds the optimum chord in the root fixing the tip chord
+
 %% Add paths
 
 addpath ../aerodynamics
@@ -16,27 +18,27 @@ params.h = ft2m(15000);                        % m
 params.rho = ISA_atmosphere(params.h);         % kg/m^3
 params.x = linspace(0.001,1,100)';
 
-%% Design variables for NOMINAL CASE
+%% Design variables for ROOT CHORD CASE
 
 % Number of blades
-nominal.nb = 4;
+rootchord.nb = 4;
 
 % Chord at the root
-nominal.c0 = 0.27;                             % m
+rootchord.c0 = 0.27;                             % m
 
 % Chord at the tip
-nominal.cF = 0.27;                             % m
+rootchord.cF = 0.27;                             % m
 
 % Chord distribution
-nominal.c = chord(nominal, params);            % m
+rootchord.c = chord(rootchord, params);            % m
 
 % Twist slope
-nominal.twist.thetaTW = -2;                    % deg/m
+rootchord.twist.thetaTW = -2;                    % deg/m
 
 % NACA 0016
-nominal.aero.Cl_alpha = 6.05;                  % 1/rad
-nominal.aero.Cd0 = 0.0076;                    
-nominal.aero.K = 0.3/nominal.aero.Cl_alpha^2;  % 1/rad^2
+rootchord.aero.Cl_alpha = 6.05;                  % 1/rad
+rootchord.aero.Cd0 = 0.0076;                    
+rootchord.aero.K = 0.3/rootchord.aero.Cl_alpha^2;  % 1/rad^2
 
 
 %% Analyses
@@ -45,20 +47,20 @@ twist_angle = linspace(-10, 10, 100);
 c_0 = chord_span;
 
 c_F = 0.1;
-nominal.cF = c_F;
+rootchord.cF = c_F;
 
 power = zeros(length(twist_angle), length(chord_span));
 for k = 1:length(twist_angle)
-    nominal.twist.thetaTW = twist_angle(k); 
+    rootchord.twist.thetaTW = twist_angle(k); 
     for i = 1:length(chord_span)
-            nominal.c0 = c_0(i);
-            nominal.c = chord(nominal, params); 
-            nominal = power_BETMT(params, nominal);
-            power(k, i) = nominal.P;
+            rootchord.c0 = c_0(i);
+            rootchord.c = chord(rootchord, params); 
+            rootchord = power_BETMT(params, rootchord);
+            power(k, i) = rootchord.P;
             fprintf("-----------LINEAR CHORD CASE------------\n")
-            fprintf("Twist angle %.2fº \n", nominal.twist.thetaTW)
-            fprintf("c0 = %.2f \n", nominal.c0)
-            fprintf("cF = %.2f \n", nominal.cF)
+            fprintf("Twist angle %.2fº \n", rootchord.twist.thetaTW)
+            fprintf("c0 = %.2f \n", rootchord.c0)
+            fprintf("cF = %.2f \n", rootchord.cF)
 %             fprintf("Minimum power = %.2f kW \n\n", power(row, col))  
     end
 end

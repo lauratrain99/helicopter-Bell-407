@@ -1,3 +1,6 @@
+% This file uses the optimimum twist configuration and a linear
+% chord configuration to check the three aerodynamic profiles with 
+% a 4 blade configuration
 
 %% Add paths
 
@@ -16,27 +19,27 @@ params.h = ft2m(15000);                        % m
 params.rho = ISA_atmosphere(params.h);         % kg/m^3
 params.x = linspace(0.001,1,100)';
 
-%% Design variables for NOMINAL CASE
+%% Design variables for AERODYNAMIC PROFILE OPTIMIZATION
 
 % Number of blades
-nominal.nb = 4;
+blades4.nb = 4;
 
 % Chord at the root
-nominal.c0 = 0.27;                             % m
+blades4.c0 = 0.27;                             % m
 
 % Chord at the tip
-nominal.cF = 0.27;                             % m
+blades4.cF = 0.27;                             % m
 
 % Chord distribution
-nominal.c = chord(nominal, params);            % m
+blades4.c = chord(blades4, params);            % m
 
 % Twist slope
-nominal.twist.thetaTW = -2;                    % deg/m
+blades4.twist.thetaTW = -2;                    % deg/m
 
 % NACA 0016
-nominal.aero.Cl_alpha = 6.05;                  % 1/rad
-nominal.aero.Cd0 = 0.0076;                    
-nominal.aero.K = 0.3/nominal.aero.Cl_alpha^2;  % 1/rad^2
+blades4.aero.Cl_alpha = 6.05;                  % 1/rad
+blades4.aero.Cd0 = 0.0076;                    
+blades4.aero.K = 0.3/blades4.aero.Cl_alpha^2;  % 1/rad^2
 
 
 %% Analyses
@@ -54,26 +57,26 @@ twist_angle = linspace(-10, 10, 100);
 c_0 = chord_span;
 
 c_F = min_chord;
-nominal.cF = c_F;
+blades4.cF = c_F;
 
 for airfoil = 1:3
-    nominal.aero.Cl_alpha = Cl_alpha(airfoil);
-    nominal.aero.Cd0 = Cd0(airfoil);
-    nominal.aero.K = k_par(airfoil);
+    blades4.aero.Cl_alpha = Cl_alpha(airfoil);
+    blades4.aero.Cd0 = Cd0(airfoil);
+    blades4.aero.K = k_par(airfoil);
     
     for k = 1:length(twist_angle)
-        nominal.twist.thetaTW = twist_angle(k); 
+        blades4.twist.thetaTW = twist_angle(k); 
         for i = 1:length(chord_span)
-                nominal.c0 = c_0(i);
-                nominal.c = chord(nominal, params); 
-                nominal = power_BETMT(params, nominal);
-                power(k, i, airfoil) = nominal.P;
+                blades4.c0 = c_0(i);
+                blades4.c = chord(blades4, params); 
+                blades4 = power_BETMT(params, blades4);
+                power(k, i, airfoil) = blades4.P;
                 fprintf("-----------LINEAR CASE------------\n")
-                fprintf("Number of blades %i \n", nominal.nb)
-                fprintf("Twist angle %.2fº \n", nominal.twist.thetaTW)
+                fprintf("Number of blades %i \n", blades4.nb)
+                fprintf("Twist angle %.2fº \n", blades4.twist.thetaTW)
                 fprintf("Airfoil %i \n", airfoil)
-                fprintf("c0 = %.2f \n", nominal.c0)
-                fprintf("cF = %.2f \n", nominal.cF)
+                fprintf("c0 = %.2f \n", blades4.c0)
+                fprintf("cF = %.2f \n", blades4.cF)
     %             fprintf("Minimum power = %.2f kW \n\n", power(row, col))  
         end
     end
@@ -116,7 +119,7 @@ plot(c0_minP(1), twist_angle_minP(1), 'rx', 'MarkerSize', 12)
 legend(sprintf('Chord root = %.2f, twist angle = %.2f, Power = %.2f kW', c0_minP(1), twist_angle_minP(1), min_power(1)))
 xlabel('Chord in the root [m]')
 ylabel('Twist angle [deg/m]')
-title(sprintf('Power [kW] (tip chord = 0.1 m), NACA 0012. Blades = %i', nominal.nb))
+title(sprintf('Power [kW] (tip chord = 0.1 m), NACA 0012. Blades = %i', blades4.nb))
 colormap cool
 % shading interp
 grid on
@@ -134,7 +137,7 @@ legend(sprintf('Chord root = %.2f, twist angle = %.2f, Power = %.2f kW', c0_minP
 % text(c0_minP(2), twist_angle_minP(2), sprintf('Chord root = %.2f, twist angle = %.2f', c0_minP(2), twist_angle_minP(2)))
 xlabel('Chord in the root [m]')
 ylabel('Twist angle [deg/m]')
-title(sprintf('Power [kW] (tip chord = 0.1 m), NACA 0016. Blades = %i', nominal.nb))
+title(sprintf('Power [kW] (tip chord = 0.1 m), NACA 0016. Blades = %i', blades4.nb))
 colormap cool
 % shading interp
 grid on
@@ -151,7 +154,7 @@ plot(c0_minP(3), twist_angle_minP(3), 'rx', 'MarkerSize', 12)
 legend(sprintf('Chord root = %.2f, twist angle = %.2f, Power = %.2f kW', c0_minP(3), twist_angle_minP(3), min_power(3)))
 xlabel('Chord in the root [m]')
 ylabel('Twist angle [deg/m]')
-title(sprintf('Power [kW] (tip chord = 0.1 m), NACA 0020. Blades = %i', nominal.nb))
+title(sprintf('Power [kW] (tip chord = 0.1 m), NACA 0020. Blades = %i', blades4.nb))
 colormap cool
 % shading interp
 grid on

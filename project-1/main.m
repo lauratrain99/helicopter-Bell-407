@@ -1,11 +1,15 @@
 clear; clc; close all;
 
-addpath /aerodynamics
-addpath /conversions
-addpath /params
-addpath /power
-addpath /DoE
+% This file contains all the calls for the optimization analyses
 
+%% Add paths
+addpath aerodynamics/
+addpath conversions/
+addpath params/
+addpath power/
+addpath DoE/
+
+%% Run the 6 optimization analyses
 run constant_chord.m
 run chord_all.m
 run twist_all.m

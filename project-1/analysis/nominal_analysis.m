@@ -1,5 +1,7 @@
 clear; clc; close all;
 
+% This file contains the nominal analysis
+
 %% Add paths
 
 addpath ../aerodynamics

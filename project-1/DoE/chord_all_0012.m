@@ -1,5 +1,8 @@
 clear; clc; close all;
 
+% This file finds out the optimium chord configuration with a NACA0012 
+% and a 4 blade configuration
+
 %% Add paths
 
 addpath ../aerodynamics
@@ -16,27 +19,27 @@ params.h = ft2m(15000);                        % m
 params.rho = ISA_atmosphere(params.h);         % kg/m^3
 params.x = linspace(0.001,1,100)';
 
-%% Design variables for NOMINAL CASE
+%% Design variables for LINEAR CHORD NACA 0012
 
 % Number of blades
-nominal.nb = 4;
+linearchord12.nb = 4;
 
 % Chord at the root
-nominal.c0 = 0.27;                             % m
+linearchord12.c0 = 0.27;                             % m
 
 % Chord at the tip
-nominal.cF = 0.27;                             % m
+linearchord12.cF = 0.27;                             % m
 
 % Chord distribution
-nominal.c = chord(nominal, params);            % m
+linearchord12.c = chord(linearchord12, params);            % m
 
 % Twist slope
-nominal.twist.thetaTW = -2;                    % deg/m
+linearchord12.twist.thetaTW = -2;                    % deg/m
 
 % NACA 0012
-nominal.aero.Cl_alpha = 5.63;                  % 1/rad
-nominal.aero.Cd0 = 0.0061;                    
-nominal.aero.K = 0.0138/nominal.aero.Cl_alpha^2;  % 1/rad^2
+linearchord12.aero.Cl_alpha = 5.63;                  % 1/rad
+linearchord12.aero.Cd0 = 0.0061;                    
+linearchord12.aero.K = 0.0138/linearchord12.aero.Cl_alpha^2;  % 1/rad^2
 
 
 %% Analyses
@@ -45,17 +48,17 @@ chord_span = linspace(0.1, 1, 100);            % m
 power = 0 * c_0;
 for i = 1:length(chord_span)
     for j = 1:length(chord_span)
-        nominal.c0 = c_0(i, j);                             % m
-        nominal.cF = c_F(i, j);                             % m
-        nominal.c = chord(nominal, params); 
-        nominal = power_BETMT(params, nominal);
+        linearchord12.c0 = c_0(i, j);                             % m
+        linearchord12.cF = c_F(i, j);                             % m
+        linearchord12.c = chord(linearchord12, params); 
+        linearchord12 = power_BETMT(params, linearchord12);
 
 %         fprintf("-----------NOMINAL CASE------------\n")
 %         fprintf("The collective angle is %.2fº \n", rad2deg(nominal.twist.theta0))
 %         fprintf("Cpi = %.8f \n", nominal.Cpi)
 %         fprintf("Cp0 = %.8f \n", nominal.Cp0)
 %         fprintf("Total power = %.2f kW \n\n", nominal.P)
-        power(i, j) = nominal.P;
+        power(i, j) = linearchord12.P;
     end
 end
 
