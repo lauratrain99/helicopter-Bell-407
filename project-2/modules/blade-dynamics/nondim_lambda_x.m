@@ -1,4 +1,4 @@
-function [lambda_x] = nondim_lambda_x(params, alphaR, inflow)
+function [lambda_x] = nondim_lambda_x(params, alphaR)
 % lambda_x obtains the lambda_x parameter in blade dynamics theory
 %
 % INPUTS:
@@ -16,13 +16,12 @@ function [lambda_x] = nondim_lambda_x(params, alphaR, inflow)
 %            SFP: reference area [m^2]
 %             Iy: pitch moment of inertia [kg*m^2]
 %         alphaR, helicopter rotor tilt - coning flapping[rad]
-%         inflow, inflow ratio 
 %   
 % OUTPUTS:
 %       lambda_x, non dimensional lambda_x parameter
 %  
 %%    
-    lambda_x = params.V / (params.Omega * params.R) * sin(alphaR) - inflow;
+    lambda_x = params.V / (params.Omega * params.R) * sin(alphaR);
 
 end
 

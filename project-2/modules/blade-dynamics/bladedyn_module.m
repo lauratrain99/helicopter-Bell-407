@@ -36,7 +36,7 @@ function [theta0, thetaS] = bladedyn_module(params, alphaD, beta0, betaS, betaC)
     % get parameters mu_x, gamma and lambda_x,
     mu_x = nondim_mux(params, alphaR);
     gamma = nondim_gamma(params);
-    lambda_x = nondim_lambda_x(params, alphaR, inflow_rat);
+    lambda_x = nondim_lambda_x(params, alphaR);
     
     % model main equation as A*f = B*p + w - i
     A = [1, 0, 0; 
