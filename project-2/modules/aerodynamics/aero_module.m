@@ -18,11 +18,11 @@ function [TD] = aero_module(params, theta0, thetaS, alphaD, betaC)
 %             Iy: pitch moment of inertia [kg*m^2]
 %         theta0, collective angle [rad]
 %         thetaS, cyclic angle [rad]
-%         alphaD, helicopter rotor tilt [rad]
-%          betaC, coning flapping [rad]
+%         alphaD, rotor tilt wrt horizon [rad]
+%          betaC, rotor tilt wrt helicopter [rad]
 %   
 % OUTPUTS:
-%              TD, thrust magnitude [N]
+%             TD, thrust magnitude [N]
 %
 %%  
     % compute the inflow ratio

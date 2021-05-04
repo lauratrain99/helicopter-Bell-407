@@ -22,7 +22,7 @@ params.c0 = 0.27;                              % constant chord [m]
 params.Cl_alpha = 6.05;                        % lift coeff slope [1/rad]
 params.V = 10;                                 % forward velocity [m/s]
 params.SFP = 2;                                % reference area [m^2]
-params.Iy = 100;                               % pitch moment of inertia [kg*m^2]
+params.Iy = pitch_inertia(params);             % pitch moment of inertia [kg*m^2]
 
 %% Iterative procedure - WORKFLOW ARRANGEMENT 2
 

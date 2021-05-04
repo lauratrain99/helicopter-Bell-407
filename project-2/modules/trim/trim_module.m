@@ -19,8 +19,8 @@ function [alphaD, betaC, betaS, TD] = trim_module(params)
 %             Iy: pitch moment of inertia [kg*m^2]
 %   
 % OUTPUTS:
-%          alphaD, rotor disk tilting [rad]
-%           betaC, cyclic flapping [rad]
+%          alphaD, rotor disk tilting wrt horizon [rad]
+%           betaC, rotor disk tilting wrt helicopter [rad]
 %           betaS, side flapping [rad]
 %              TD, thrust magnitude [N]
 %

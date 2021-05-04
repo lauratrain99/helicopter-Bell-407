@@ -17,7 +17,7 @@ function [CT] = thrust_coeff(params)
 %             Iy: pitch moment of inertia [kg*m^2]
 %
 % OUTPUTS
-%         CT, thrust coefficient
+%             CT, thrust coefficient
 %    
 %%  
     % gravity [m/s^2]
