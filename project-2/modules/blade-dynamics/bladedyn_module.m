@@ -1,4 +1,4 @@
-function [theta0, thetaS] = bladedyn_module(params, alphaD, beta0, betaS, betaC)
+function [beta0, thetaS, thetaC] = bladedyn_module(params, alphaD, theta0, betaS, betaC)
 % bladedyn_module obtains the pilot's input required for given flapping
 % conditions
 %
@@ -17,13 +17,14 @@ function [theta0, thetaS] = bladedyn_module(params, alphaD, beta0, betaS, betaC)
 %            SFP: reference area [m^2]
 %             Iy: pitch moment of inertia [kg*m^2]
 %         alphaD, helicopter rotor tilt [rad]
-%          beta0, lateral flapping [rad]
+%         theta0, collective angle [rad]
 %          betaS, longitudinal flapping [rad]
 %          betaC, coning flapping [rad]
 %   
 % OUTPUTS:
-%         theta0, collective angle [rad]
+%          beta0, lateral flapping [rad]
 %         thetaS, cyclic angle [rad]
+%         thetaC, coning angle [rad]
 %
 %%
     % compute inflow ratio
@@ -38,19 +39,21 @@ function [theta0, thetaS] = bladedyn_module(params, alphaD, beta0, betaS, betaC)
     gamma = nondim_gamma(params);
     lambda_x = nondim_lambda_x(params, alphaR);
     
-    % model main equation as A*f = B*p + w - i
-    A = [1, 0, 0; 
-        1/3 * mu_x, 1/8 * mu_x^2 + 1/4, 0;
-        0, 0, 1/8 * mu_x^2 - 1/4];
+    % the goal is to get a vector with [beta0, thetaS, thetaC]
+    % we have [theta0, betaS, betaC]
+    % model main equation as A*output = B*input + w - i
+    A = [gamma/8 * (mu_x^2 + 1), 0, 0; 
+        0, 1/8 * mu_x^2 + 1/4, 0;
+        2/3 * mu_x, 0, 1/8 * mu_x^2 - 1/4];
     
-    % flapping response
-    f = [beta0;
-        betaS;
-        betaC];
+    % input
+    input = [theta0;
+            betaS;
+            betaC];
     
-    B = [gamma/8 * (mu_x^2 + 1), gamma/6 * mu_x, 0;
-        0, 0, 1/8 * (mu_x^2 + 2); 
-        2/3 * mu_x, 1/8 * (2 + 3 * mu_x^2), 0];
+    B = [1, gamma/6 * mu_x, 0;
+        1/3 * mu_x, 0, 1/8 * (mu_x^2 + 2); 
+        0, 1/8 * (2 + 3 * mu_x^2), 0];
     
     % inflow wind
     w = [gamma * lambda_x / 6;
@@ -62,12 +65,12 @@ function [theta0, thetaS] = bladedyn_module(params, alphaD, beta0, betaS, betaC)
         0;
         mu_x / 2 * inflow_rat];
     
-    % solve for p
-    p = B\(A * f - w + i);
+    % solve for output
+    output = B\(A * input - w + i);
     
-    % pilot's input
-    theta0 = p(1);
-    thetaS = p(2);
+    beta0 = output(1);
+    thetaS = output(2);
+    thetaC = output(3);
     
     
 end
